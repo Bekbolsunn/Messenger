@@ -21,7 +21,7 @@ class User(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name=_("Пользователь"), null=True, on_delete=models.CASCADE)
     username = models.CharField(max_length=150, unique=True)
     nickname = models.CharField(max_length=150, blank=True, default='nobody')
     country = CountryField()
@@ -30,14 +30,14 @@ class Profile(models.Model):
         upload_to=get_path_upload_avatar,
         blank=True,
         default='default/default_avatar.png',
-        validator=[FileExtensionValidator(allowed_extensions=['jpg', 'png']), validate_size_image_avatar]
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png']), validate_size_image_avatar]
     )
     tiktok = models.URLField(null=True, blank=True)
     telegram = models.URLField(null=True, blank=True)
     instagram = models.URLField(null=True, blank=True)
 
     def __str__(self):
-        return str(self.user)
+        return self.username
 
 
 class Follower(models.Model):
